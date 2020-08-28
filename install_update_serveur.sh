@@ -1,21 +1,24 @@
-wget "https://www.minecraft.net/fr-fr/download/server"
+#/bin/bash
 
+# constante
 path_minecraft/opt/minecraft/
 path_versions=/opt/minecraft/versions/
 alias_server=/opt/minecraft/minecraft_server
 
+echo "----------------------------------------------------------------------------------------------------"
+echo "-------------------------------------------get html page--------------------------------------------"
+wget "https://www.minecraft.net/fr-fr/download/server"
+echo "-------------------------------------------- parse html --------------------------------------------"
 link=$(cat server | grep "<a href=\"https://launcher")
-
 url=$(echo "$link" | grep -oP https:\/\/launcher[a-zA-Z0-9\.\/]*)
-
 version=$(echo "$link" | grep -oP minecraft_server[0-9\.\/]*jar)
-
 FILE=$path_versions/$version
 
-echo "----------------------------------------------------------------------------------------------------"
 echo "link = $link"
 echo "url = $url"
 echo "version = $version"
+
+echo "------------------------------------ update if necessary -------------------------------------------"
 
 if [ -f "$FILE" ]; then
     echo "$FILE exists."
@@ -28,6 +31,6 @@ else
     ln -s $FILE $alias_server
 fi
 
-echo "----------------------------------------------------------------------------------------------------"
+echo "-------------------------------------- Clean folder -------------------------------------------------"
 rm server
 
