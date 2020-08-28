@@ -1,13 +1,15 @@
 #/bin/bash
 
 # constante
-path_minecraft/opt/minecraft/
 path_versions=/opt/minecraft/versions/
 alias_server=/opt/minecraft/minecraft_server
+url_download_page="https://www.minecraft.net/fr-fr/download/server"
 
 echo "----------------------------------------------------------------------------------------------------"
+echo "------------------------------------------ stop server ---------------------------------------------"
+./stop_server.sh
 echo "-------------------------------------------get html page--------------------------------------------"
-wget "https://www.minecraft.net/fr-fr/download/server"
+wget $url_download_page
 echo "-------------------------------------------- parse html --------------------------------------------"
 link=$(cat server | grep "<a href=\"https://launcher")
 url=$(echo "$link" | grep -oP https:\/\/launcher[a-zA-Z0-9\.\/]*)
@@ -30,7 +32,8 @@ else
     fi
     ln -s $FILE $alias_server
 fi
-
-echo "-------------------------------------- Clean folder -------------------------------------------------"
+echo "------------------------------------------ start server --------------------------------------------"
+./start_server.sh
+echo "-------------------------------------- Clean folder ------------------------------------------------"
 rm server
 

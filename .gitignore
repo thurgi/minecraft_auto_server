@@ -2,3 +2,10 @@
 /logs/
 /world/
 minecraft_server
+banned-ips.json
+banned-players.json
+eula.txt
+ops.json
+server.properties
+usercache.json
+whitelist.json
